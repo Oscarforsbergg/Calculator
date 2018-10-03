@@ -66,12 +66,6 @@ class Calculator {
     // TODO Methods
 
 
-
-
-
-
-
-
     int getPrecedence(String op) {
         if ("+-".contains(op)) {
             return 2;
@@ -125,56 +119,71 @@ class Calculator {
     return null;
     }*/
 
-    List <String> tokenize2(String input){
+    List<String> tokenize2(String input) {
         List<String> tokenized = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         String s1 = new String();
         int count = 1;
-        for (char s : removeBlanks(input)){
-            if (count == removeBlanks(input).length){ //todo
+        for (char s : removeBlanks(input)) {
+            if (count == removeBlanks(input).length) { //todo
+                if (Character.isDigit(s)){
+                    sb.append(s);
+                }
                 s1 = sb.toString();
                 tokenized.add(s1);
                 sb = new StringBuilder();
                 count++;
-            }
-            else if (Character.isDigit(s)){
+                if (isOperator(s)){
+                    sb.append(s);
+                    s1 = sb.toString();
+                    tokenized.add(s1);
+                    sb = new StringBuilder();
+                }
+
+            } else if (Character.isDigit(s)) {
                 sb.append(s);
                 count++;
-            }
-            else if (isOperator(s)){
+            } else if (isOperator(s)) {
+                s1 = sb.toString();
+                if (!s1.isEmpty()){
+                    tokenized.add(s1);
+                    sb = new StringBuilder();
+                }
+                sb.append(s);
                 s1 = sb.toString();
                 tokenized.add(s1);
                 sb = new StringBuilder();
-                sb.append(s);
-                s1 = sb.toString();
-                tokenized.add(s1);
-                sb =new StringBuilder();
                 count++;
             }
         }
 
-    return tokenized;
+        return tokenized;
 
     }
+
     boolean isOperator(char ch) {
         return "+-*/^()".indexOf(ch) >= 0;
     }
-    char [] removeBlanks(String input){
+
+    char[] removeBlanks(String input) {
         int index = 0;
         int index2 = 0;
         StringBuilder sb = new StringBuilder();
         char[] newCharArr = new char[input.toCharArray().length];
-        for (char ch : input.toCharArray()){
-            if (Character.isDigit(ch) || isOperator(ch)){
+        for (char ch : input.toCharArray()) {
+            if (Character.isDigit(ch) || isOperator(ch)) {
                 newCharArr[index] = ch;
                 index++;
                 index2++;
             }
         }
-        while (index >-1){
-            if (index >= 0){
-                sb.append(newCharArr[index2-index]);
+        while (index > -1) {
+            if (index > 0) {
+                sb.append(newCharArr[index2 - index]);
                 index--;
+            }
+            else{
+                break;
             }
 
         }
@@ -185,6 +194,6 @@ class Calculator {
     }
 
 
-
 }
+
 
