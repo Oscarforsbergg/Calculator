@@ -131,11 +131,10 @@ class Calculator {
         String s1 = new String();
         int count = 1;
         for (char s : removeBlanks(input)){
-            if (count == input.toCharArray().length){ //todo
-                sb.append(s);
+            if (count == removeBlanks(input).length){ //todo
                 s1 = sb.toString();
                 tokenized.add(s1);
-                sb =new StringBuilder();
+                sb = new StringBuilder();
                 count++;
             }
             else if (Character.isDigit(s)){
@@ -162,16 +161,30 @@ class Calculator {
     }
     char [] removeBlanks(String input){
         int index = 0;
-        char[] newCharArr = new char[input.toCharArray().length + ((input.toCharArray().length)- index)];
+        int index2 = 0;
+        StringBuilder sb = new StringBuilder();
+        char[] newCharArr = new char[input.toCharArray().length];
         for (char ch : input.toCharArray()){
             if (Character.isDigit(ch) || isOperator(ch)){
                 newCharArr[index] = ch;
-                index++; //todo
+                index++;
+                index2++;
             }
         }
-        return newCharArr;
+        while (index >-1){
+            if (index >= 0){
+                sb.append(newCharArr[index2-index]);
+                index--;
+            }
+
+        }
+
+        String s = sb.toString();
+        char[] trimmed = s.toCharArray();
+        return trimmed;
     }
 
 
 
 }
+
