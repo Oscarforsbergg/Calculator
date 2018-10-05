@@ -148,6 +148,16 @@ class Calculator {
         return "()".indexOf(ch) >= 0;
     }
 
+    boolean DoublePower(String operator1, String operator2){
+        if (getAssociativity(operator1).equals(getAssociativity(operator2)) && getAssociativity(operator1) == Assoc.RIGHT){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
     char[] removeBlanks(String input) {
         int index = 0;
         int index2 = 0;
@@ -194,7 +204,7 @@ class Calculator {
                     if (stack.isEmpty()) {
                         stack.add(s);
                     }
-                    else if (getPrecedence(stack.peek()) >= getPrecedence(s)) {
+                    else if (getPrecedence(stack.peek()) >= getPrecedence(s) && !DoublePower(stack.peek(), s)) {
                         postfix.add(stack.pop());
                         stack.add(s);
                     } else {
@@ -207,10 +217,11 @@ class Calculator {
             }
 
         }
+        final int postfixLength = postfix.size();
         for (String str : stack) {
             if (!stack.isEmpty()) {
                 if (!isColon(str.charAt(0))) {
-                    postfix.add(stack.pop()); // in i lista och sen ut som reverse?
+                    postfix.add(postfixLength, stack.pop()); // in i lista och sen ut som reverse?
                 }
 
             } else {
@@ -222,4 +233,3 @@ class Calculator {
 
 
 }
-
